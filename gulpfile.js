@@ -17,6 +17,12 @@ gulp.task('browser-sync', function() {
     });
 });
 
+// Copy lib
+gulp.task('lib', function () {
+    gulp.src('node_modules/font-awesome/**')
+        .pipe(gulp.dest('dist/lib/font-awesome'));
+});
+
 // Build js files
 gulp.task('compressJS', function() {
     gulp.src(['src/js/*.js'])
@@ -46,9 +52,10 @@ gulp.task('compressCSS', function() {
 
 // Watch files for changes & recompile
 gulp.task('watch', function () {
+    gulp.watch('*.html').on('change', browserSync.reload);
     gulp.watch(['src/css/*.scss'], ['compressCSS']);
     gulp.watch(['src/js/*.js'], ['compressJS']);
 });
 
 // Default task, running just `gulp` will move font, compress js and scss, start server, watch files.
-gulp.task('default', ['compressCSS', 'compressJS', 'browser-sync', 'watch']);
+gulp.task('default', ['lib', 'compressCSS', 'compressJS', 'browser-sync', 'watch']);
